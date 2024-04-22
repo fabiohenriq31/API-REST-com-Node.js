@@ -20,7 +20,7 @@ export const knex = setupKnex(config);
 Arquivo knexfile.ts:
 Importei a configuração do banco de dados diretamente do arquivo database.ts.
 Utilizei o import para importar a configuração correta.
-typescript
+
 import { config } from './src/database';
 
 export default config;
