@@ -16,7 +16,19 @@ describe('Transactions routes', () => {
     it('should be able to create a new transaction', async () => {
         /* Fazer a chamada HTTP p/ criar uma nova transação */
 
-        const response = await request(app.server)
+        await request(app.server)
+            .post('/transactions')
+            .send({
+                title: 'Governo de Minas Gerais',
+                amount: 5000,
+                type: 'credit',
+            })/* Validação */
+            .expect(201)
+
+    })
+
+    it('should be able to list all transactions', async () => {
+        const createTransactionResponse = await request(app.server)
             .post('/transactions')
             .send({
                 title: 'Governo de Minas Gerais',
@@ -24,10 +36,18 @@ describe('Transactions routes', () => {
                 type: 'credit',
             })
 
-        /* Validação */
-        expect(response.statusCode).toEqual(201)
+        const cookies: string[] = createTransactionResponse.get('Set-Cookie') as string[];
 
+        const listTransactionsResponse = await request(app.server)
+            .get('/transactions')
+            .set('Cookie', cookies)
+            .expect(200)
+        expect(listTransactionsResponse.body.transactions).toEqual([
+
+            expect.objectContaining({
+                title: 'Governo de Minas Gerais',
+                amount: 5000,
+            })
+        ])
     })
 })
-
-
