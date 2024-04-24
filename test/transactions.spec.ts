@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { expect, test, beforeAll, afterAll, describe } from 'vitest'
+import { expect, it, beforeAll, afterAll, describe } from 'vitest'
 import request from 'supertest'
 import { app } from '../src/app'
 
@@ -13,7 +13,7 @@ describe('Transactions routes', () => {
         await app.close()
     })
 
-    test('User can create a new transaction', async () => {
+    it('should be able to create a new transaction', async () => {
         /* Fazer a chamada HTTP p/ criar uma nova transação */
 
         const response = await request(app.server)
